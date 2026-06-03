@@ -25,19 +25,21 @@ CREATE TABLE auth.accounts (
 
 -- BẢNG 2: ADMIN PROFILES (Hồ sơ dành riêng cho Admin)
 CREATE TABLE auth.admin_profiles (
-    account_id INT PRIMARY KEY REFERENCES auth.accounts(account_id) ON DELETE CASCADE,
+    admin_id SERIAL PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
     admin_level VARCHAR(20) DEFAULT 'moderator',
-    last_login_at TIMESTAMP NULL
+    last_login_at TIMESTAMP NULL, 
+    account_id INT NOT NULL UNIQUE REFERENCES auth.accounts(account_id) ON DELETE CASCADE
 );
 
 -- BẢNG 3: USER PROFILES (Hồ sơ và Quản lý tài nguyên của User)
 CREATE TABLE auth.user_profiles (
-    account_id INT PRIMARY KEY REFERENCES auth.accounts(account_id) ON DELETE CASCADE,
+    user_id SERIAL PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
     storage_quota BIGINT DEFAULT 104857600, -- 100MB
     used_storage BIGINT DEFAULT 0,
-    api_call_count INT DEFAULT 0
+    api_call_count INT DEFAULT 0, 
+    account_id INT NOT NULL UNIQUE REFERENCES auth.accounts(account_id) ON DELETE CASCADE
 );
 
 
